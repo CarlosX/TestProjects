@@ -12,7 +12,7 @@ namespace LoginServer
         internal Client client;
         internal Decode PacketInformation;
         //private byte WrongPassword = 1;
-        static short User_Current;
+        //static short User_Current;
 
         public Systems(Client de)
         {

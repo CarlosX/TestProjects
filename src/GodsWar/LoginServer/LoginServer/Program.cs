@@ -16,7 +16,7 @@ namespace LoginServer
     }
     class Program
     {
-        public static Network.Servers.IPCServer IPCServer;
+        //public static Network.Servers.IPCServer IPCServer;
         public static Dictionary<UInt16, IPCItem> IPCResultList = new Dictionary<UInt16, IPCItem>();
         public static UInt16 IPCNewId = 0;
         public static int IPCPort = 5999;
