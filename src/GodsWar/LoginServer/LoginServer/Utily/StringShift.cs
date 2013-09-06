@@ -34,35 +34,44 @@ namespace LoginServer.Utily
                     if (!isnumber)
                     {
                         int pos = 0;
+                        bool found = false;
                         for (int x = 0; x < key_f.Length; x++)
                         {
                             if (dd == key_f[x])
                             {
                                 pos = x;
+                                found = true;
                                 break;
                             }
                         }
-                        int key = key_shift[lng];
-                        int bf = key_f.Length - pos;
-                        char nwt = ' ';
-                        if ((bf - key) <= 0)
+                        if (found)
                         {
-                            int find = bf - key;
-                            if (find < 0)
+                            int key = key_shift[lng];
+                            int bf = key_f.Length - pos;
+                            char nwt = ' ';
+                            if ((bf - key) <= 0)
                             {
-                                int nff = Math.Abs(find);
-                                nwt = key_f[nff];
+                                int find = bf - key;
+                                if (find < 0)
+                                {
+                                    int nff = Math.Abs(find);
+                                    nwt = key_f[nff];
+                                }
+                                else
+                                {
+                                    nwt = key_f[find];
+                                }
                             }
                             else
                             {
-                                nwt = key_f[find];
+                                nwt = key_f[pos + key];
                             }
+                            fulldata += nwt;
                         }
                         else
                         {
-                            nwt = key_f[pos + key];
+                            fulldata += dd;
                         }
-                        fulldata += nwt;
                     }
                     else
                     {

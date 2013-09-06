@@ -21,6 +21,14 @@ namespace LoginServer
         public static UInt16 IPCNewId = 0;
         public static int IPCPort = 5999;
         public static bool debug = true;
+        #region MYSQL CONFIG
+        public static string MYSQL_IP = "127.0.0.1";
+        public static string MYSQL_USER = "root";
+        public static string MYSQL_PASS = "";
+        public static string MYSQL_DATA = "godswar";
+        public static int MYSQL_PORT = 3306;
+        public static MySqlBase _SQL = new MySqlBase();
+        #endregion
         static void Main(string[] args)
         {
             Program pro = new Program();
@@ -31,8 +39,8 @@ namespace LoginServer
             #region Default Settings
             int LSPort = 5999;
             int IPCPort = 5999;
-            string LSIP = "192.168.1.5";
-            string IPCIP = "192.168.1.5";
+            string LSIP = "127.0.0.1";
+            string IPCIP = "127.0.0.1";
             #endregion
 
             #region Load Settings
@@ -41,11 +49,16 @@ namespace LoginServer
                 if (File.Exists(Environment.CurrentDirectory + @"\Settings\Settings.ini"))
                 {
                     ini = new Systems.Ini(Environment.CurrentDirectory + @"\Settings\Settings.ini");
-                    LSPort = Convert.ToInt32(ini.GetValue("Server", "port", 5999));
-                    LSIP = ini.GetValue("Server", "ip", "192.168.1.5").ToString();
+                    LSPort = Convert.ToInt32(ini.GetValue("SERVER", "port", 5999));
+                    LSIP = ini.GetValue("SERVER", "ip", "127.0.0.1").ToString();
                     IPCPort = Convert.ToInt32(ini.GetValue("IPC", "port", 5999));
-                    IPCIP = ini.GetValue("IPC", "ip", "192.168.1.5").ToString();
+                    IPCIP = ini.GetValue("IPC", "ip", "127.0.0.1").ToString();
                     debug = ini.GetValue("CONSOLE", "debug", false);
+                    MYSQL_USER = ini.GetValue("MYSQL", "user", "root");
+                    MYSQL_PASS = ini.GetValue("MYSQL", "pass", "123456");
+                    MYSQL_DATA = ini.GetValue("MYSQL", "data", "godswar");
+                    MYSQL_IP = ini.GetValue("MYSQL", "ip", "127.0.0.1");
+                    MYSQL_PORT = ini.GetValue("MYSQL", "port", 3306);
                     ini = null;
                     LogConsole.Show("Has loaded your ip settings successfully");
                 }
@@ -60,11 +73,12 @@ namespace LoginServer
             }
             #endregion
 
+            _SQL.Init(MYSQL_IP, MYSQL_USER, MYSQL_PASS, MYSQL_DATA, MYSQL_PORT);
+
             Systems.Server net = new Systems.Server();
 
             net.OnConnect += new Systems.Server.dConnect(pro._OnClientConnect);
             net.OnError += new Systems.Server.dError(pro._ServerError);
-
 
             Systems.Client.OnReceiveData += new Systems.Client.dReceive(pro._OnReceiveData);
             Systems.Client.OnDisconnect += new Systems.Client.dDisconnect(pro._OnClientDisconnect);
@@ -79,7 +93,7 @@ namespace LoginServer
             }
 
             #region Load GameServers
-            Systems.LoadServers("GameServers.ini", 6001);
+            //Systems.LoadServers("GameServers.ini", 6001);
             #endregion
 
             #region IPC Listener
@@ -102,7 +116,8 @@ namespace LoginServer
             }*/
             #endregion
 
-            LogConsole.Show("Ready for gameserver connection...");
+            //LogConsole.Show("Ready for gameserver connection...");
+            #region Loop Update GameServers
             while (true)
             {
                 Thread.Sleep(100);
@@ -115,7 +130,9 @@ namespace LoginServer
                     }
                 }*/
             }
+            #endregion
         }
+        #region IPC
         public void OnIPC(System.Net.Sockets.Socket aSocket, System.Net.EndPoint ep, byte[] data)
         {
             try
@@ -168,7 +185,8 @@ namespace LoginServer
                 LogDebug.Show("[IPC.OnIPC] {0}", ex);
             }
         }
-
+        #endregion
+        #region ServerD
         public void _OnReceiveData(Systems.Decode de)
         {
             Systems.oPCode(de);
@@ -192,6 +210,7 @@ namespace LoginServer
         {
             LogDebug.Show(ex.ToString());
         }
+        #endregion
         public static string HexStr(byte[] data)
         {
             char[] lookup = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };

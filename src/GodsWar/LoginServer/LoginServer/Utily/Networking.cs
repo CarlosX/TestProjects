@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Net;
 using System.Net.Sockets;
-
+using LoginServer.Utily;
 namespace LoginServer
 {
     public partial class Systems
@@ -149,8 +149,12 @@ namespace LoginServer
                             checkData = false;
                             if (bufCount >= 4) // a minimum of 4 byte is required for us
                             {
+                                byte[] _newtmp = new byte[bufCount];
+                                Buffer.BlockCopy(buffer, 0, _newtmp, 0, bufCount);
+                                LogDebug.HexDump(_newtmp, 16, true);
                                 Decode de = new Decode(buffer); // only get get the size first
-                                if (bufCount >= (de.dataSize-2))  // that's a complete packet, lets call the handler
+                                LogConsole.Show("bufCount: {0} dataSize: {1}", bufCount, de.dataSize);
+                                if (bufCount >= (de.dataSize - 2))  // that's a complete packet, lets call the handler
                                 {
                                     de = new Decode(wSocket, de.tempbuff, this, Packets);  // build up the Decode structure for next step
                                     OnReceiveData(de); // call the handling routine
@@ -160,6 +164,14 @@ namespace LoginServer
                                         Buffer.BlockCopy(buffer, 2 + de.dataSize, buffer, 0, bufCount); // move the rest to buffer start
                                         checkData = true; // loop for next packet
                                     }
+                                }
+                                else
+                                {
+                                    byte[] _tempddd = new byte[bufCount];
+                                    Utily.EncDcd end = new Utily.EncDcd();
+                                    byte[] dddxx = end.Crypt(buffer);
+                                    Buffer.BlockCopy(dddxx, 0, _tempddd, 0, bufCount);
+                                    LogDebug.HexDump(_tempddd, 16, true);
                                 }
                                 de = null;
                             }
@@ -192,6 +204,21 @@ namespace LoginServer
                     if (buff!=null && buff.Length>0 && clientSocket.Connected)
                     {
                         clientSocket.Send(buff);
+                    }
+                }
+                catch (Exception)
+                {
+                }
+            }
+            public void SendC(byte[] buff)
+            {
+                try
+                {
+                    if (buff != null && buff.Length > 0 && clientSocket.Connected)
+                    {
+                        EncDcd encoded = new Utily.EncDcd();
+                        clientSocket.Send(encoded.Crypt(buff));
+                        encoded = null;
                     }
                 }
                 catch (Exception)

@@ -35,6 +35,9 @@
     <ApplicationIcon>prueba2.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MySql.Data">
+      <HintPath>Lib\MySql.Data.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -46,15 +49,22 @@
   <ItemGroup>
     <Compile Include="Comm\Framework.IPCServer.cs" />
     <Compile Include="Config\GameServerInfo.cs" />
+    <Compile Include="Database\MySqlBase.cs" />
+    <Compile Include="Database\SQLResult.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Definitions\Bootlogo.cs" />
     <Compile Include="Definitions\DataClass.cs" />
+    <Compile Include="Definitions\DataDefinitions.cs" />
     <Compile Include="Definitions\Definitions.cs" />
     <Compile Include="Functions\Function_Select.cs" />
+    <Compile Include="Functions\Function_UserLogin.cs" />
     <Compile Include="LogConsole.cs" />
     <Compile Include="Packets\Packet_ServerList.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utily\Decode.cs" />
+    <Compile Include="Utily\EncDcd.cs" />
     <Compile Include="Utily\INI.cs" />
     <Compile Include="Utily\MD5.cs" />
     <Compile Include="Utily\Networking.cs" />

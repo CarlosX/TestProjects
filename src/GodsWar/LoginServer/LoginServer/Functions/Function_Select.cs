@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Data.SqlClient;
 using System.Collections.Generic;
 using LoginServer.Utily;
+using LoginServer.Definitions;
 
 namespace LoginServer
 {
@@ -18,15 +19,12 @@ namespace LoginServer
                 Systems sys = (Systems)decode.Packet;
                 sys.PacketInformation = decode;
                 PacketReader Reader = new PacketReader(sys.PacketInformation.buffer);
-
                 LogDebug.Show("Opcode: {0}", decode.opcode);
-
-
-                switch (decode.opcode)
+                Opcode opc = (Opcode)decode.opcode;
+                switch (opc)
                 {
-                    case 0x01:
+                    case Opcode._MSG_LOGIN:
                         {
-                            LogDebug.HexDump(sys.PacketInformation.buffer);
                             string username_shift = Reader.String(32);
                             string password_md5 = Reader.String(32);
                             Reader.Skip(4);
@@ -36,13 +34,23 @@ namespace LoginServer
                             StringShift shift = new StringShift();
                             string username = shift.Parser(username_shift);
                             LogDebug.Show("username: {0}", username);
-                            LogDebug.Show("password: {0}", password_md5);
-                            LogDebug.Show("Mac: {0}", client_mac);
-                            LogDebug.Show("unk3: {0}", unk3);
+                            LogDebug.Show("password_md5: {0}", password_md5);
+                            //LogDebug.Show("Mac: {0}", client_mac);
+                            //LogDebug.Show("unk3: {0}", unk3);
+                            int res = UserLogin(username, password_md5, client_mac);
+                            if (res == 1)
+                            {
+                                sys.client.SendC(ServerListPacket(1));
+                            }
+                            else
+                            {
+                                sys.client.SendC(UserFail(0xF0));
+                            }
                         }
                         break;
                     default:
-                        LogConsole.Show("Default Opcode: {0:X}", decode.opcode);
+                        LogConsole.Show("Default Opcode: {0:X} - {1}", decode.opcode, opc);
+                        //LogDebug.HexDump(sys.PacketInformation.buffer, 16, true);
                         break;
                 }
             }
