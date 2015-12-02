@@ -10,6 +10,7 @@ This version were at real early stages this are the features:
 * Packets Decryption!
 * Packets Handling!
 * Packets Utilities!
+* Basic Multi-threaded Login Server
 * General Programming Aid Utilities!
 * MySQL DB Support!
 
