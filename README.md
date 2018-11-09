@@ -7,12 +7,12 @@ Here you will find the incompleted source for the building of what it could pote
 
 This version were at real early stages this are the features:
 
-* Packets Decryption!
-* Packets Handling!
-* Packets Utilities!
+* Packets Decryption
+* Packets Handling
+* Packets Utilities
 * Basic Multi-threaded Login Server
-* General Programming Aid Utilities!
-* MySQL DB Support!
+* General Programming Aid Utilities
+* MySQL DB Support
 
 And other stuff that I'm probably forgetting now :D anyways feel free to check the source!
 
