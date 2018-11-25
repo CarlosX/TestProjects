@@ -19,6 +19,7 @@ namespace LoginServer
                 Systems sys = (Systems)decode.Packet;
                 sys.PacketInformation = decode;
                 PacketReader Reader = new PacketReader(sys.PacketInformation.buffer);
+                LogDebug.HexDump(sys.PacketInformation.buffer, 16, true);
                 LogDebug.Show("Opcode: {0}", decode.opcode);
                 Opcode opc = (Opcode)decode.opcode;
                 switch (opc)
@@ -37,20 +38,31 @@ namespace LoginServer
                             LogDebug.Show("password_md5: {0}", password_md5);
                             //LogDebug.Show("Mac: {0}", client_mac);
                             //LogDebug.Show("unk3: {0}", unk3);
+
+
+                            if (!JudgeValidStr(username, password_md5))
+                            {
+                                break;
+                            }
                             int res = UserLogin(username, password_md5, client_mac);
                             if (res == 1)
+                            {
+                                CompleteLogin(sys.client);
+
+                            }
+                            /*if (res == 1)
                             {
                                 sys.client.SendC(ServerListPacket(1));
                             }
                             else
                             {
                                 sys.client.SendC(UserFail(0xF0));
-                            }
+                            }*/
                         }
                         break;
                     default:
                         LogConsole.Show("Default Opcode: {0:X} - {1}", decode.opcode, opc);
-                        //LogDebug.HexDump(sys.PacketInformation.buffer, 16, true);
+                        LogDebug.HexDump(sys.PacketInformation.buffer, 16, true);
                         break;
                 }
             }

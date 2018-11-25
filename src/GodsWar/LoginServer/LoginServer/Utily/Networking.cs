@@ -151,7 +151,7 @@ namespace LoginServer
                             {
                                 byte[] _newtmp = new byte[bufCount];
                                 Buffer.BlockCopy(buffer, 0, _newtmp, 0, bufCount);
-                                LogDebug.HexDump(_newtmp, 16, true);
+                                //LogDebug.HexDump(_newtmp, 16, true);
                                 Decode de = new Decode(buffer); // only get get the size first
                                 LogConsole.Show("bufCount: {0} dataSize: {1}", bufCount, de.dataSize);
                                 if (bufCount >= (de.dataSize - 2))  // that's a complete packet, lets call the handler

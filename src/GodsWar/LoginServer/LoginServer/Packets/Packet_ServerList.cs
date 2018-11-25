@@ -4,6 +4,7 @@ using System.Text;
 using System.Data.SqlClient;
 using System.Collections.Generic;
 using LoginServer.Utily;
+using LoginServer.Definitions;
 
 namespace LoginServer
 {
@@ -11,6 +12,18 @@ namespace LoginServer
     {
         public static byte[] ServerListPacket(int cliVersion)
         {
+            PacketWriter pack = new PacketWriter();
+            pack.Create((ushort)Opcode._MSG_LOGIN_RETURN_INFO);
+            /*
+             * 0: el ID no está registrado; 
+             * 1: el inicio de sesión es exitoso; 
+             * 2: inicio de sesión repetido; 
+             * 3: error de contraseña; 
+             * 4: error de versión 
+             */
+
+
+
             byte[] datasend = new byte[] { 
             0x06, 0x00, //unk
             0x03, 0x00, //unk supongo que opcode

@@ -60,6 +60,11 @@
     <Compile Include="Functions\Function_Select.cs" />
     <Compile Include="Functions\Function_UserLogin.cs" />
     <Compile Include="LogConsole.cs" />
+    <Compile Include="Network\MsgHead.cs" />
+    <Compile Include="Network\MSG_GAMESERVER_INFO.cs" />
+    <Compile Include="Network\MSG_LOGIN.cs" />
+    <Compile Include="Network\MSG_LOGIN_RETURN_INFO.cs" />
+    <Compile Include="Network\Packet.cs" />
     <Compile Include="Packets\Packet_ServerList.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -67,6 +72,7 @@
     <Compile Include="Utily\EncDcd.cs" />
     <Compile Include="Utily\INI.cs" />
     <Compile Include="Utily\MD5.cs" />
+    <Compile Include="Utily\MsgDefine.cs" />
     <Compile Include="Utily\Networking.cs" />
     <Compile Include="Utily\PacketReader.cs" />
     <Compile Include="Utily\PacketWriter.cs" />
