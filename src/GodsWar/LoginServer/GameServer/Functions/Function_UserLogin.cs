@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LoginServer
+namespace GameServer
 {
     public partial class Systems
     {

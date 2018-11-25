@@ -1,45 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 using System.Net.Sockets;
-using LoginServer.Utily;
+using GameServer.Utility;
 
-namespace LoginServer
+namespace GameServer
 {
     public partial class Systems
     {
         public class Decode
         {
-            private ushort OPCODE;
-
-            private byte[] BUFFER;
-            private Socket socket;
-            private object NET;
-            private object packet;
             public UInt16 dataSize;
             public byte[] tempbuff;
-            public ushort opcode
-            {
-                get { return OPCODE; }
-            }
-            public byte[] buffer
-            {
-                get { return BUFFER; }
-            }
-            public Socket Client
-            {
-                get { return socket; }
-            }
-            public object Networking
-            {
-                get { return NET; }
-            }
-            public object Packet
-            {
-                get { return packet; }
-            }
+
+            public ushort opcode;
+            public byte[] buffer;
+            public Socket Client;
+            public object Networking;
+            public object Packet;
             MemoryStream ms;
             BinaryReader br;
 
@@ -48,7 +25,7 @@ namespace LoginServer
                 try
                 {
                     byte[] _tempbuff = new byte[buffer.Length];
-                    EncDcd endc = new EncDcd();
+                    EncDec endc = new EncDec();
                     _tempbuff = endc.Crypt(buffer);
                     ms = new MemoryStream(_tempbuff);
                     br = new BinaryReader(ms);
@@ -69,7 +46,7 @@ namespace LoginServer
             {
                 try
                 {
-                    packet = packetf;
+                    Packet = packetf;
 
                     ms = new MemoryStream(buffer);
                     br = new BinaryReader(ms);
@@ -79,11 +56,11 @@ namespace LoginServer
                     byte[] b = new byte[dataSize-4];
                     Array.Copy(buffer, 4, b, 0, dataSize-4);
 
-                    BUFFER = b;
-                    OPCODE = br.ReadUInt16();
+                    this.buffer = b;
+                    opcode = br.ReadUInt16();
 
-                    socket = wSock;
-                    NET = net;
+                    Client = wSock;
+                    Networking = net;
                 }
                 catch (Exception)
                 {
@@ -93,7 +70,7 @@ namespace LoginServer
             {
                 try
                 {
-                    packet = packetf;
+                    Packet = packetf;
 
                     ms = new MemoryStream(buffer);
                     br = new BinaryReader(ms);
@@ -101,11 +78,11 @@ namespace LoginServer
                     byte[] b = new byte[size];
                     Array.Copy(buffer, 0, b, 0, size);
 
-                    BUFFER = b;
-                    OPCODE = 0;
+                    this.buffer = b;
+                    opcode = 0;
 
-                    socket = wSock;
-                    NET = net;
+                    Client = wSock;
+                    Networking = net;
                 }
                 catch (Exception)
                 {

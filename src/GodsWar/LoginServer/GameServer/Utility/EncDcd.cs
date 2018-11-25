@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LoginServer.Utily
+﻿namespace GameServer.Utility
 {
-    public class EncDcd
+    public class EncDec
     {
         private int HashPointer = 0;
         private byte[] HashOne = new byte[256] {0x1F,0xCA,0x29,0xAC, 0x03,0x1E,0x2D,0xA0, 0x27,0xB2,0x71,0xD4, 0x8B,0x86,0xF5,0x48, 
@@ -49,7 +43,7 @@ namespace LoginServer.Utily
             for (int i = 0; i < Packet.Length; i++)
             {
                 Decrypt[i] = (byte)((Packet[i] ^ HashOne[HashPointer]) ^ HashTwo[HashPointer]);
-                HashPointer = ((HashPointer + 1) % 256); //Move HashPointer +1 and roll if 256 to 0
+                HashPointer = ((HashPointer + 1) % 256); //Move HashPointer + 1 and roll if 256 to 0
             }
             return Decrypt;
         }

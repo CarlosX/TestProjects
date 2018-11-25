@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Net;
 using System.Net.Sockets;
-using LoginServer.Utily;
-namespace LoginServer
+using GameServer.Utility;
+
+namespace GameServer
 {
     public partial class Systems
     {
@@ -57,6 +58,7 @@ namespace LoginServer
                 }
                 finally { }
             }
+
             private void ClientConnect(IAsyncResult ar)
             {
                 try
@@ -66,23 +68,23 @@ namespace LoginServer
 
 
                     object p = null;
-                    Client Player = new Client();
+                    Client client = new Client();
                     try
                     {
-                        OnConnect(ref p, Player);
+                        OnConnect(ref p, client);
                     }
                     catch (Exception)
                     {
                         
                     }
 
-                    Player.Packets = p;
-                    Player.clientSocket = wSocket;
+                    client.Packets = p;
+                    client.clientSocket = wSocket;
 
                     serverSocket.BeginAccept(new AsyncCallback(ClientConnect), null);
                     try
                     {
-                        wSocket.BeginReceive(Player.tmpbuf, 0, Player.tmpbuf.Length, SocketFlags.None, new AsyncCallback(Player.ReceiveData), wSocket);
+                        wSocket.BeginReceive(client.tmpbuf, 0, client.tmpbuf.Length, SocketFlags.None, new AsyncCallback(client.ReceiveData), wSocket);
                     }
                     catch (SocketException){}
                     catch (Exception)
@@ -144,22 +146,22 @@ namespace LoginServer
                             LocalDisconnect(wSocket);
                         }
 
-                        while (checkData) // repeat while we have 
+                        while (checkData) // repeat while we have data
                         {
                             checkData = false;
                             if (bufCount >= 4) // a minimum of 4 byte is required for us
                             {
                                 byte[] _newtmp = new byte[bufCount];
                                 Buffer.BlockCopy(buffer, 0, _newtmp, 0, bufCount);
-                                LogDebug.HexDump(_newtmp, 16, true);
-                                Decode de = new Decode(buffer); // only get get the size first
+                                LogDebug.HexDump(_newtmp, 16, true, true);
+                                Decode de = new Decode(buffer); // only get the size first.
                                 LogConsole.Show("bufCount: {0} dataSize: {1}", bufCount, de.dataSize);
-                                if (bufCount >= (de.dataSize - 2))  // that's a complete packet, lets call the handler
+                                if (bufCount >= (de.dataSize - 2))  // It's a complete packet. Call the handler.
                                 {
                                     de = new Decode(wSocket, de.tempbuff, this, Packets);  // build up the Decode structure for next step
                                     OnReceiveData(de); // call the handling routine
                                     bufCount -= (de.dataSize); // decrease buffer-counter
-                                    if (bufCount > 0) // was the buffer greater than the packet needs ? then it may be the next packet
+                                    if (bufCount >= 0) // was the buffer greater than what the packet needs? then it may be the next packet.
                                     {
                                         Buffer.BlockCopy(buffer, 2 + de.dataSize, buffer, 0, bufCount); // move the rest to buffer start
                                         checkData = true; // loop for next packet
@@ -168,10 +170,10 @@ namespace LoginServer
                                 else
                                 {
                                     byte[] _tempddd = new byte[bufCount];
-                                    Utily.EncDcd end = new Utily.EncDcd();
+                                    EncDec end = new EncDec();
                                     byte[] dddxx = end.Crypt(buffer);
-                                    Buffer.BlockCopy(dddxx, 0, _tempddd, 0, bufCount);
-                                    LogDebug.HexDump(_tempddd, 16, true);
+                                    Buffer.BlockCopy(dddxx, 0, _tempddd, 0, de.dataSize);    
+                                    LogConsole.Show("bufCount: {0} dataSize: {1}", bufCount, de.dataSize);
                                 }
                                 de = null;
                             }
@@ -216,9 +218,9 @@ namespace LoginServer
                 {
                     if (buff != null && buff.Length > 0 && clientSocket.Connected)
                     {
-                        EncDcd encoded = new Utily.EncDcd();
-                        clientSocket.Send(encoded.Crypt(buff));
-                        encoded = null;
+                        EncDec EncDec = new Utility.EncDec();
+                        clientSocket.Send(EncDec.Crypt(buff));
+                        EncDec = null;
                     }
                 }
                 catch (Exception)

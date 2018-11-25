@@ -5,10 +5,10 @@ using System.Net;
 using System.Net.Sockets;
 using System.Data.SqlClient;
 using System.Collections.Generic;
-using LoginServer.Utility;
-using LoginServer.Definitions;
+using GameServer.Utility;
+using GameServer.Definitions;
 
-namespace LoginServer
+namespace GameServer
 {
     public partial class Systems
     {        
@@ -40,7 +40,7 @@ namespace LoginServer
                             int res = UserLogin(username, password_md5, client_mac);
                             if (res == (int)AuthenticationStatus.OK)
                             {
-                                sys.client.SendC(ServerList());
+                                sys.client.SendC(ServerListPacket(1));
                             }
                             else if(res == (int)AuthenticationStatus.BANNED)
                             {

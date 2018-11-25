@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LoginServer.Utily
+namespace LoginServer.Utility
 {
     public class StringShift
     {

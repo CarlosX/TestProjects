@@ -6,7 +6,7 @@ using System.Globalization;
 using System.Text;
 using System.Threading;
 
-namespace LoginServer
+namespace GameServer
 {
     public class MySqlBase
     {

@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Globalization;
-using LoginServer.Utility;
+using GameServer.Utility;
+using GameServer;
 
-namespace LoginServer
+namespace GameServer
 {
     class LogConsole
     {
@@ -14,7 +15,7 @@ namespace LoginServer
         static string timeformat = "HH:mm:ss";
         public static void Init()
         {
-            Console.Title = "LoginServer";
+            Console.Title = "GameServer";
         }
         public static void Show(string lg1)
         {
@@ -46,7 +47,7 @@ namespace LoginServer
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.Write("[" + Time.ToString(timeformat) + "]");
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write("[SERVER]: ");
+            Console.Write("[GServer]: ");
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write(lg1, arg);
             Console.Write("\n");

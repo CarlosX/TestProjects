@@ -1,14 +1,14 @@
-﻿using System;
+﻿using GameServer;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading;
-using System.IO;
-using System.Net;
-using System.Net.Sockets;
-using LoginServer.Utility;
+using System.Threading.Tasks;
 
-namespace LoginServer
+namespace GameServer
 {
     public class IPCItem
     {
@@ -20,7 +20,7 @@ namespace LoginServer
         //public static Network.Servers.IPCServer IPCServer;
         public static Dictionary<UInt16, IPCItem> IPCResultList = new Dictionary<UInt16, IPCItem>();
         public static UInt16 IPCNewId = 0;
-        public static int IPCPort = 5999;
+        public static int IPCPort = 7000;
         public static bool debug = true;
         #region MYSQL CONFIG
         public static string MYSQL_IP = "127.0.0.1";
@@ -33,15 +33,13 @@ namespace LoginServer
         static void Main(string[] args)
         {
             Program pro = new Program();
-            Definitions.Bootlogo._Load();
+            GameServer.Definitions.Bootlogo._Load();
             Systems.Ini ini = null;
             LogConsole.Init();
-            new EncDec().Load_Hash1();
-            new EncDec().Load_Hash2();
 
             #region Default Settings
-            int LSPort = 5999;
-            int IPCPort = 5999;
+            int LSPort = 7000;
+            int IPCPort = 7000;
             string LSIP = "127.0.0.1";
             string IPCIP = "127.0.0.1";
             #endregion
@@ -49,12 +47,12 @@ namespace LoginServer
             #region Load Settings
             try
             {
-                if (File.Exists(Environment.CurrentDirectory + @"\Settings\Settings.ini"))
+                if (File.Exists(Environment.CurrentDirectory + @"\Settings\Server-Settings.ini"))
                 {
-                    ini = new Systems.Ini(Environment.CurrentDirectory + @"\Settings\Settings.ini");
-                    LSPort = Convert.ToInt32(ini.GetValue("SERVER", "port", 5999));
+                    ini = new Systems.Ini(Environment.CurrentDirectory + @"\Settings\Server-Settings.ini");
+                    LSPort = Convert.ToInt32(ini.GetValue("GAMESERVER", "port", 7000));
                     LSIP = ini.GetValue("SERVER", "ip", "127.0.0.1").ToString();
-                    IPCPort = Convert.ToInt32(ini.GetValue("IPC", "port", 5999));
+                    IPCPort = Convert.ToInt32(ini.GetValue("IPC", "port", 7000));
                     IPCIP = ini.GetValue("IPC", "ip", "127.0.0.1").ToString();
                     debug = ini.GetValue("CONSOLE", "debug", false);
                     MYSQL_USER = ini.GetValue("MYSQL", "user", "root");
@@ -63,11 +61,11 @@ namespace LoginServer
                     MYSQL_IP = ini.GetValue("MYSQL", "ip", "127.0.0.1");
                     MYSQL_PORT = ini.GetValue("MYSQL", "port", 3306);
                     ini = null;
-                    LogConsole.Show("MYSQL Connection Settings... LOADED!");
+                    LogConsole.Show("MYSQL Connection Server-Settings... LOADED!");
                 }
                 else
                 {
-                    LogConsole.Show("Settings.ini could not be found, doing fallback to default settings!");
+                    LogConsole.Show("Server-Settings.ini could not be found, doing fallback to default settings!");
                 }
             }
             catch (Exception)
@@ -105,11 +103,11 @@ namespace LoginServer
             try
             {
                 IPCServer.Start(IPCIP, IPCPort);
-                foreach (KeyValuePair<int, Systems.SRX_Serverinfo> GS in Systems.GSList)
+                foreach (KeyValuePair<int, Systems.SRX_Serverinfo> Server in Systems.GSList)
                 {
                     byte[] rqPacket = IPCServer.PacketRequestServerInfo(IPCPort);
-                    Network.Servers.IPCenCode(ref rqPacket, GS.Value.code);
-                    IPCServer.Send(GS.Value.ip, GS.Value.ipcport, rqPacket);
+                    Network.Servers.IPCenCode(ref rqPacket, Server.Value.code);
+                    IPCServer.Send(Server.Value.ip, Server.Value.ipcport, rqPacket);
                     rqPacket = null;
                 }
             }
