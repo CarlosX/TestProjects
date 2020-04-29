@@ -35,20 +35,20 @@ namespace LoginServer
                             string username = shift.Parser(username_shift);
                             LogDebug.Show("username: {0}", username);
                             LogDebug.Show("password_md5: {0}", password_md5);
-                            LogDebug.Show("Mac: {0}", client_mac);
+                            LogDebug.Show("MAC: {0}", client_mac);
                             LogDebug.Show("unk3: {0}", unk3);
                             int res = UserLogin(username, password_md5, client_mac);
-                            if (res == (int)AuthenticationStatus.OK)
+                            switch (res)
                             {
-                                sys.client.SendC(ServerList());
-                            }
-                            else if(res == (int)AuthenticationStatus.BANNED)
-                            {
-                                sys.client.SendC(UserFail(0xF0, Reason.BANNED));
-                            }
-                            else
-                            {
-                                sys.client.SendC(UserFail(0xF0, Reason.AUTH_FAILED));
+                                case (int)AuthenticationStatus.OK:
+                                    sys.client.SendC(ServerList());
+                                    break;
+                                case (int)AuthenticationStatus.BANNED:
+                                    sys.client.SendC(UserFail(0xF0, Reason.BANNED));
+                                    break;
+                                default:
+                                    sys.client.SendC(UserFail(0xF0, Reason.AUTH_FAILED));
+                                    break;
                             }
                         }
                         break;
