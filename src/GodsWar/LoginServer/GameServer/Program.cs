@@ -47,9 +47,9 @@ namespace GameServer
             #region Load Settings
             try
             {
-                if (File.Exists(Environment.CurrentDirectory + @"\Settings\Server-Settings.ini"))
+                if (File.Exists(Environment.CurrentDirectory + @"\Settings\GS-Settings.ini"))
                 {
-                    ini = new Systems.Ini(Environment.CurrentDirectory + @"\Settings\Server-Settings.ini");
+                    ini = new Systems.Ini(Environment.CurrentDirectory + @"\Settings\GS-Settings.ini");
                     LSPort = Convert.ToInt32(ini.GetValue("GAMESERVER", "port", 7000));
                     LSIP = ini.GetValue("SERVER", "ip", "127.0.0.1").ToString();
                     IPCPort = Convert.ToInt32(ini.GetValue("IPC", "port", 7000));

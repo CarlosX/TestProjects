@@ -40,7 +40,7 @@ namespace GameServer
                             int res = UserLogin(username, password_md5, client_mac);
                             if (res == (int)AuthenticationStatus.OK)
                             {
-                                sys.client.SendC(ServerListPacket(1));
+                                sys.client.SendC(NewCharacterPacket());
                             }
                             else if(res == (int)AuthenticationStatus.BANNED)
                             {

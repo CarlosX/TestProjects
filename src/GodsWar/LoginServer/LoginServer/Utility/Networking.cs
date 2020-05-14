@@ -149,10 +149,12 @@ namespace LoginServer
                             checkData = false;
                             if (bufCount >= 4) // a minimum of 4 byte is required for us
                             {
-                                byte[] _newtmp = new byte[bufCount];
-                                Buffer.BlockCopy(buffer, 0, _newtmp, 0, bufCount);
-                                LogDebug.HexDump(_newtmp, 16, true, true);
+                                byte[] newtmp = new byte[bufCount];
+                                Buffer.BlockCopy(buffer, 0, newtmp, 0, bufCount);
+                                LogDebug.HexDump(newtmp, 16, true, true);
                                 Decode de = new Decode(buffer); // only get the size first.
+                                Decode tmp_de = new Decode(tmpbuf);
+                                LogConsole.Show("TMP BUFFER OPCODE: {0}", tmp_de.opcode);
                                 LogConsole.Show("bufCount: {0} dataSize: {1}", bufCount, de.dataSize);
                                 if (bufCount >= (de.dataSize - 2))  // It's a complete packet. Call the handler.
                                 {
@@ -178,7 +180,7 @@ namespace LoginServer
                             }
                         }
                         // start the next async read
-                        if (wSocket != null && wSocket.Connected)
+                        if (wSocket.Connected)
                         {
                             wSocket.BeginReceive(tmpbuf, 0, tmpbuf.Length, SocketFlags.None, new AsyncCallback(ReceiveData), wSocket);
                         }
@@ -192,8 +194,9 @@ namespace LoginServer
                 {
                     LocalDisconnect(wSocket);
                 }
-                catch (Exception) // other exceptions
+                catch (Exception ex) // other exceptions
                 {
+                    LogConsole.Show("Exception Occurred! {0}", ex.Message);
                     LocalDisconnect(wSocket);
                 }
             }

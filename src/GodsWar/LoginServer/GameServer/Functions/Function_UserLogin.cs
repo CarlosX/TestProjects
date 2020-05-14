@@ -10,8 +10,8 @@ namespace GameServer
     {
         public enum Reason
         {
-            BANNED = 0x02,
-            AUTH_FAILED = 0x00
+            BANNED = 2,
+            AUTH_FAILED = 0
         }
 
         public enum AuthenticationStatus

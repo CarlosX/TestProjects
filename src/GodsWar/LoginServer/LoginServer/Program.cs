@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
+using LoginServer.Definitions;
 using LoginServer.Utility;
 
 namespace LoginServer
@@ -33,7 +32,7 @@ namespace LoginServer
         static void Main(string[] args)
         {
             Program pro = new Program();
-            Definitions.Bootlogo._Load();
+            Bootlogo._Load();
             Systems.Ini ini = null;
             LogConsole.Init();
             new EncDec().Load_Hash1();
@@ -53,9 +52,9 @@ namespace LoginServer
                 {
                     ini = new Systems.Ini(Environment.CurrentDirectory + @"\Settings\Settings.ini");
                     LSPort = Convert.ToInt32(ini.GetValue("SERVER", "port", 5999));
-                    LSIP = ini.GetValue("SERVER", "ip", "127.0.0.1").ToString();
+                    LSIP = ini.GetValue("SERVER", "ip", "127.0.0.1");
                     IPCPort = Convert.ToInt32(ini.GetValue("IPC", "port", 5999));
-                    IPCIP = ini.GetValue("IPC", "ip", "127.0.0.1").ToString();
+                    IPCIP = ini.GetValue("IPC", "ip", "127.0.0.1");
                     debug = ini.GetValue("CONSOLE", "debug", false);
                     MYSQL_USER = ini.GetValue("MYSQL", "user", "root");
                     MYSQL_PASS = ini.GetValue("MYSQL", "pass", "123456");
@@ -80,11 +79,11 @@ namespace LoginServer
 
             Systems.Server net = new Systems.Server();
 
-            net.OnConnect += new Systems.Server.dConnect(pro._OnClientConnect);
-            net.OnError += new Systems.Server.dError(pro._ServerError);
+            net.OnConnect += pro._OnClientConnect;
+            net.OnError += pro._ServerError;
 
-            Systems.Client.OnReceiveData += new Systems.Client.dReceive(pro._OnReceiveData);
-            Systems.Client.OnDisconnect += new Systems.Client.dDisconnect(pro._OnClientDisconnect);
+            Systems.Client.OnReceiveData += pro._OnReceiveData;
+            Systems.Client.OnDisconnect += pro._OnClientDisconnect;
 
             try
             {
@@ -136,7 +135,7 @@ namespace LoginServer
             #endregion
         }
         #region IPC
-        public void OnIPC(System.Net.Sockets.Socket aSocket, System.Net.EndPoint ep, byte[] data)
+        public void OnIPC(Socket aSocket, EndPoint ep, byte[] data)
         {
             try
             {
@@ -192,7 +191,8 @@ namespace LoginServer
         #region ServerD
         public void _OnReceiveData(Systems.Decode de)
         {
-            Systems.OPCode(de);
+            LogConsole.Show("[OPCODE FROM RECV] {0}", de.opcode);
+            Systems.HandleOpCodes(de);
         }
         public void _OnClientConnect(ref object de, Systems.Client net)
         {
@@ -216,7 +216,7 @@ namespace LoginServer
         #endregion
         public static string HexStr(byte[] data)
         {
-            char[] lookup = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
+            char[] lookup = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
             int i = 0, p = 2, l = data.Length;
             char[] c = new char[l * 2 + 2];
             byte d; c[0] = '0'; c[1] = 'x';

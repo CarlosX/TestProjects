@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LoginServer.Definitions
 {
-    public enum Opcode
+    public enum OpCodes
     {
         // ÍøÂçÁ¬½Ó¹¦ÄÜÏûÏ¢
         _MSG_INVALID = 0,
@@ -14,13 +14,13 @@ namespace LoginServer.Definitions
         //client<->login server
         _MSG_LOGIN = 1,
         _MSG_LOGIN_RETURN_INFO,                   //µÇÂ½·þÎñÆ÷·µ»Ø
-        _MSG_REQUEST_GAMESERVER,                   //ÇëÇóÓÎÏ··þÎñÆ÷
+        _MSG_REQUEST_GAMESERVER = 4,                   //ÇëÇóÓÎÏ··þÎñÆ÷
 
         //loginserver<--->gamereserser
         _MSG_VALIDATE_GAMESERVER = 300,              //ÓÎÏ··þÎñÆ÷ÑéÖ¤Âë
 
         //client<->game server
-        _MSG_LOGIN_GAMESERVER = 10000,           //µÇÂ¼ÓÎÏ··þÎñÆ÷
+        _MSG_LOGIN_GAMESERVER,           //µÇÂ¼ÓÎÏ··þÎñÆ÷
         _MSG_RESPONSE_GAMESERVER,                   //·µ»ØÑ¡ÔñÓÎÏ··þÎñÆ÷IP
         _MSG_ROLE_INFO,                   //½ÇÉ«ÐÅÏ¢
         _MSG_CREATE_ROLE,                   //´´½¨½ÇÉ«
