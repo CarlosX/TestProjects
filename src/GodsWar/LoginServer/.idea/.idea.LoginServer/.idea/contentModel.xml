@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\Joelito\.Rider2019.2\Config\consoles\db" t="IncludeRecursive" />
+    <e p="C:\Users\Joelito\.Rider2019.2\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\Joelito\.Rider2019.2\system\resharper-host\local\Transient\ReSharperHost\v192\SolutionCaches\_LoginServer.2124684688.00" t="ExcludeRecursive" />
+    <e p="D:\DevStuff\GameDev\GodsWar-Private-Server\src\GodsWar\LoginServer" t="IncludeFlat">
+      <e p="GameServer" t="IncludeRecursive">
+        <e p="App.config" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Comm" t="Include">
+          <e p="Framework.IPCServer.cs" t="Include" />
+        </e>
+        <e p="Config" t="Include">
+          <e p="GameServerInfo.cs" t="Include" />
+        </e>
+        <e p="Database" t="Include">
+          <e p="MySqlBase.cs" t="Include" />
+          <e p="SQLResult.cs" t="Include" />
+        </e>
+        <e p="Definitions" t="Include">
+          <e p="Bootlogo.cs" t="Include" />
+          <e p="DataClass.cs" t="Include" />
+          <e p="DataDefinitions.cs" t="Include" />
+          <e p="Definitions.cs" t="Include" />
+        </e>
+        <e p="Functions" t="Include">
+          <e p="Function_Select.cs" t="Include" />
+          <e p="Function_UserLogin.cs" t="Include" />
+        </e>
+        <e p="GameServer.csproj" t="IncludeRecursive" />
+        <e p="LogConsole.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="Packets" t="Include">
+          <e p="Packet_NewCharacter.cs" t="Include" />
+          <e p="Packet_ServerList.cs" t="Include" />
+        </e>
+        <e p="Program.cs" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Settings" t="Include">
+          <e p="GS-Settings.ini" t="Include" />
+        </e>
+        <e p="Utility" t="Include">
+          <e p="ByteQueue.cs" t="Include" />
+          <e p="Decode.cs" t="Include" />
+          <e p="EncDcd.cs" t="Include" />
+          <e p="INI.cs" t="Include" />
+          <e p="MD5.cs" t="Include" />
+          <e p="Networking.cs" t="Include" />
+          <e p="PacketReader.cs" t="Include" />
+          <e p="PacketWriter.cs" t="Include" />
+          <e p="StringShift.cs" t="Include" />
+        </e>
+      </e>
+      <e p="LoginServer" t="IncludeRecursive">
+        <e p="App.config" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Comm" t="Include">
+          <e p="Framework.IPCServer.cs" t="Include" />
+        </e>
+        <e p="Config" t="Include">
+          <e p="GameServerInfo.cs" t="Include" />
+        </e>
+        <e p="Database" t="Include">
+          <e p="MySqlBase.cs" t="Include" />
+          <e p="SQLResult.cs" t="Include" />
+        </e>
+        <e p="Definitions" t="Include">
+          <e p="Bootlogo.cs" t="Include" />
+          <e p="DataClass.cs" t="Include" />
+          <e p="DataDefinitions.cs" t="Include" />
+          <e p="Definitions.cs" t="Include" />
+        </e>
+        <e p="Functions" t="Include">
+          <e p="Function_Select.cs" t="Include" />
+          <e p="Function_UserLogin.cs" t="Include" />
+        </e>
+        <e p="LogConsole.cs" t="Include" />
+        <e p="LoginServer.csproj" t="IncludeRecursive" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="Packets" t="Include">
+          <e p="Packet_NewCharacter.cs" t="Include" />
+          <e p="Packet_ServerList.cs" t="Include" />
+        </e>
+        <e p="Program.cs" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="prueba2.ico" t="Include" />
+        <e p="Settings" t="Include">
+          <e p="Settings.ini" t="Include" />
+        </e>
+        <e p="Utility" t="Include">
+          <e p="ByteQueue.cs" t="Include" />
+          <e p="Decode.cs" t="Include" />
+          <e p="EncDcd.cs" t="Include" />
+          <e p="INI.cs" t="Include" />
+          <e p="MD5.cs" t="Include" />
+          <e p="Networking.cs" t="Include" />
+          <e p="PacketReader.cs" t="Include" />
+          <e p="PacketWriter.cs" t="Include" />
+          <e p="StringShift.cs" t="Include" />
+        </e>
+      </e>
+      <e p="LoginServer.sln" t="IncludeFlat" />
+      <e p="packages" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>

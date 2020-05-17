@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LoginServer.Definitions
+namespace GameServer.Definitions
 {
-    public enum OpCodes
+    public enum Opcode
     {
         // ÍøÂçÁ¬½Ó¹¦ÄÜÏûÏ¢
         _MSG_INVALID = 0,
@@ -14,13 +14,13 @@ namespace LoginServer.Definitions
         //client<->login server
         _MSG_LOGIN = 1,
         _MSG_LOGIN_RETURN_INFO,                   //µÇÂ½·þÎñÆ÷·µ»Ø
-        _MSG_REQUEST_GAMESERVER = 4,                   //ÇëÇóÓÎÏ··þÎñÆ÷
+        _MSG_REQUEST_GAMESERVER,                   //ÇëÇóÓÎÏ··þÎñÆ÷
 
         //loginserver<--->gamereserser
         _MSG_VALIDATE_GAMESERVER = 300,              //ÓÎÏ··þÎñÆ÷ÑéÖ¤Âë
 
         //client<->game server
-        _MSG_LOGIN_GAMESERVER,           //µÇÂ¼ÓÎÏ··þÎñÆ÷
+        _MSG_LOGIN_GAMESERVER = 10000,           //µÇÂ¼ÓÎÏ··þÎñÆ÷
         _MSG_RESPONSE_GAMESERVER,                   //·µ»ØÑ¡ÔñÓÎÏ··þÎñÆ÷IP
         _MSG_ROLE_INFO,                   //½ÇÉ«ÐÅÏ¢
         _MSG_CREATE_ROLE,                   //´´½¨½ÇÉ«
@@ -198,7 +198,7 @@ namespace LoginServer.Definitions
         _MSG_SKILLBACKUP,
         _MSG_SKILL_INTERRUPT,                   //¼¼ÄÜÖÐ¶Ï
 
-        //GS->AS
+        //Server->AS
         _MSG_KEY_RETURN,                                    //GSÐ£ÑéÂë·µ»Ø
         _MSG_BAN_PLAYER,
         _MSG_CONSORTIA_LVUP,	                           //¹«»áÉý¼¶
