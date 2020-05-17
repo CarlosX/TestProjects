@@ -25,46 +25,36 @@ namespace LoginServer
                 OpCodes opc = (OpCodes)decode.opcode;
                 if (opc == OpCodes._MSG_LOGIN)
                 {
+                    string usernameShift = reader.String(32);
+                    string passwordMd5 = reader.String(32);
+                    reader.Skip(4);
+                    string clientMac = reader.String(32);
+                    reader.Skip(32);
+                    uint unk3 = reader.UInt32();
+                    StringShift shift = new StringShift();
+                    string username = shift.Parser(usernameShift);
+                    LogDebug.Show("username: {0}", username);
+                    LogDebug.Show("password_md5: {0}", passwordMd5);
+                    LogDebug.Show("MAC: {0}", clientMac);
+                    LogDebug.Show("unk3: {0}", unk3);
+                    int res = UserLogin(username, passwordMd5, clientMac);
+                    switch (res)
                     {
-                        string usernameShift = reader.String(32);
-                        string passwordMd5 = reader.String(32);
-                        reader.Skip(4);
-                        string clientMac = reader.String(32);
-                        reader.Skip(32);
-                        uint unk3 = reader.UInt32();
-                        StringShift shift = new StringShift();
-                        string username = shift.Parser(usernameShift);
-                        LogDebug.Show("username: {0}", username);
-                        LogDebug.Show("password_md5: {0}", passwordMd5);
-                        LogDebug.Show("MAC: {0}", clientMac);
-                        LogDebug.Show("unk3: {0}", unk3);
-                        int res = UserLogin(username, passwordMd5, clientMac);
-                        switch (res)
-                            if (!JudgeValidStr(username, password_md5))
-                            {
-                                break;
-                            }
-                        {
-                            case (int) AuthenticationStatus.OK:
-
-                            }
-                            /*if (res == 1)
-                            {
+                        case (int)AuthenticationStatus.OK:
                             {
                                 sys.client.SendC(ServerList());
                                 break;
                             }
-                            case (int) AuthenticationStatus.BANNED:
+                        case (int)AuthenticationStatus.BANNED:
                             {
                                 sys.client.SendC(UserFail(0xF0, Reason.BANNED));
                                 break;
                             }
-                            default:
+                        default:
                             {
                                 sys.client.SendC(UserFail(0xF0, Reason.AUTH_FAILED));
                                 break;
                             }
-                        }
                     }
                 }
                 else

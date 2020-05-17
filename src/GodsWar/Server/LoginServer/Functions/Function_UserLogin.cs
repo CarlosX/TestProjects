@@ -48,15 +48,15 @@ namespace LoginServer
             //Construir mensaje de retorno de inicio de sesión
             MSG_LOGIN_RETURN_INFO Login_info = new MSG_LOGIN_RETURN_INFO();
             Login_info.Head.usSize = 0;
-            Login_info.Head.usType = (ushort)Opcode._MSG_LOGIN_RETURN_INFO;
+            Login_info.Head.usType = (ushort)OpCodes._MSG_LOGIN_RETURN_INFO;
 
             //Límite de longitud
-            if (name.Length > MAX_ACCOUNT_SIZE || password.Length > MAX_ACCOUNT_SIZE)
+            /*if (name.Length > MAX_ACCOUNT_SIZE || password.Length > MAX_ACCOUNT_SIZE)
             {
                 Login_info.ucInfo = 0;
                 //SEND
                 return false;
-            }
+            }*/
 
             //Limite de cuenta
             /*
@@ -70,7 +70,7 @@ namespace LoginServer
         {
             MSG_LOGIN_RETURN_INFO Login_info = new MSG_LOGIN_RETURN_INFO();
             Login_info.Head.usSize = 0;
-            Login_info.Head.usType = (ushort)Opcode._MSG_LOGIN_RETURN_INFO;
+            Login_info.Head.usType = (ushort)OpCodes._MSG_LOGIN_RETURN_INFO;
             Login_info.ucInfo = 0x01;
             client.SendC(Login_info.end());
         }
@@ -80,10 +80,10 @@ namespace LoginServer
             MSG_LOGIN_RETURN_INFO Login_info = new MSG_LOGIN_RETURN_INFO();
 
             Login_info.Head.usSize = 0;
-            Login_info.Head.usType = (ushort)Opcode._MSG_LOGIN_RETURN_INFO;
+            Login_info.Head.usType = (ushort)OpCodes._MSG_LOGIN_RETURN_INFO;
 
             PacketWriter pack = new PacketWriter();
-            pack.Create((ushort)Opcode._MSG_LOGIN_RETURN_INFO);
+            pack.Create((ushort)OpCodes._MSG_LOGIN_RETURN_INFO);
             pack.Byte(0x00);
             pack.Byte(_code);
             return pack.GetBytes();

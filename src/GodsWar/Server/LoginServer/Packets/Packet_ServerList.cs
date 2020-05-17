@@ -6,7 +6,7 @@ namespace LoginServer
         public static byte[] ServerListPacket(int cliVersion)
         {
             PacketWriter pack = new PacketWriter();
-            pack.Create((ushort)Opcode._MSG_LOGIN_RETURN_INFO);
+            pack.Create((ushort)OpCodes._MSG_LOGIN_RETURN_INFO);
             /*
              * 0: el ID no está registrado; 
              * 1: el inicio de sesión es exitoso; 
